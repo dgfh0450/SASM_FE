@@ -7,7 +7,7 @@ import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import WriteComment from "./WriteComment";
-import Comments from "./Comments";
+import Comment from "./Comment";
 import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
@@ -183,7 +183,6 @@ const MarkupBox = styled.div`
     }
   }
 `
-
 const MapButton = styled(Button)({
   border: 0,
   borderRadius: "29px",
@@ -219,6 +218,13 @@ const BackToList = styled.div`
   @media screen and (max-width: 768px) {
   }
 `;
+const CommentsWrapper = styled.div`
+  width: 80%;
+  margin: 10px auto;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`
 const StoryDetailBox = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const id = props.id;
@@ -329,7 +335,13 @@ const StoryDetailBox = (props) => {
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
           </ImageNContentBox>
-          <Comments data={comment}></Comments>
+          <CommentsWrapper>
+            {comment.results.map((data, index) => {
+              return (
+                <Comment data={data} key={index} />
+              );
+            })}
+          </CommentsWrapper>
           <WriteComment id={id}></WriteComment>
           {recommend.count != 0 ? (
             <Recommends data={recommend}></Recommends>
